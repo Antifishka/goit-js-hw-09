@@ -13,6 +13,7 @@ const refs = {
 
 refs.startBtn.setAttribute("disabled", true);
 
+let selectedDate = null;
 const currentDate = Date.now();
 const fp = flatpickr("#datetime-picker", options = {
     enableTime: true,
@@ -24,6 +25,8 @@ const fp = flatpickr("#datetime-picker", options = {
         
         if (selectedDates[0] > currentDate) {
             refs.startBtn.removeAttribute("disabled");
+            selectedDate = selectedDates[0];
+            return selectedDate;
         } else {
             refs.startBtn.setAttribute("disabled", true);
             window.alert("Please choose a date in the future");
@@ -32,10 +35,11 @@ const fp = flatpickr("#datetime-picker", options = {
 });
 
 class Timer {
-    constructor({onTick}) {
+    constructor({onTick, selectedDate}) {
         this.intervalId = null;
         this.isActive = false;
         this.onTick = onTick;
+        this.selectedDate = selectedDate;
     }
 
     start() {
@@ -43,18 +47,26 @@ class Timer {
             return;
         }
 
-        const startTime = Date.now();
+        const deadLine = new Date(selectedDate);
         this.isActive = true;
 
         this.intervalId = setInterval(() => {
             const currentTime = Date.now();
-            const ms = currentTime - startTime;
+            const ms = deadLine - currentTime;
             const time = this.convertMs(ms);
             
             this.onTick(time);
-            //console.log(`${days}:${hours}:${minutes}:${seconds}`);
         }, 1000);
-    }
+    };
+
+    stop(ms) {
+        if (ms <= 1000) {
+            clearInterval(this.intervalId);
+            this.isActive = false;
+            const time = this.convertMs(0);
+            this.onTick(time);
+        };
+    };
 
     //Принимает время в милисекундах,
     //высчитывает сколько в них вмещается дней/часов/минут/секунд,
@@ -82,13 +94,14 @@ class Timer {
     addLeadingZero(value) {
         return String(value).padStart(2, '0');
     };
-}
+};
 
 const timer = new Timer({
     onTick: updateClockface
 });
 
 refs.startBtn.addEventListener('click', timer.start.bind(timer));
+timer.stop.bind(timer);
 
 //Принимает декструктизированное время, рисует интерфейс
 function updateClockface({ days, hours, minutes, seconds }) {

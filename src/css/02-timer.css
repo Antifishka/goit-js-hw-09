@@ -1,0 +1,28 @@
+.timer{
+    display: flex;
+    justify-content: flex-start;
+
+    margin-top: 20px;
+}
+
+.field{
+    margin-right: 10px;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.field:last-child{
+    margin-right: 0px;
+}
+
+.value{
+    font-size: 32px;
+}
+
+.label{
+    text-transform: uppercase;
+    font-size: 12px;
+    
+}
