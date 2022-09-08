@@ -53,19 +53,22 @@ class Timer {
         this.intervalId = setInterval(() => {
             const currentTime = Date.now();
             const ms = deadLine - currentTime;
+
+            if (ms <= 1000) {
+                this.stop();
+            }
+
             const time = this.convertMs(ms);
             
             this.onTick(time);
         }, 1000);
     };
 
-    stop(ms) {
-        if (ms <= 1000) {
+    stop() {
             clearInterval(this.intervalId);
             this.isActive = false;
             const time = this.convertMs(0);
             this.onTick(time);
-        };
     };
 
     //Принимает время в милисекундах,
