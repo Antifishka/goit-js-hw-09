@@ -1,7 +1,6 @@
-// Описаний в документації
-import flatpickr from "flatpickr";
-// Додатковий імпорт стилів
-import "flatpickr/dist/flatpickr.min.css";
+import flatpickr from "flatpickr";//подключение библиотеки flatpickr
+import "flatpickr/dist/flatpickr.min.css";//дополнительный импорт стилей flatpickr
+import Notiflix from 'notiflix';//подключение библиотеки notiflix
 
 const refs = {
     startBtn: document.querySelector('button[data-start]'),
@@ -29,7 +28,8 @@ const fp = flatpickr("#datetime-picker", options = {
             return selectedDate;
         } else {
             refs.startBtn.setAttribute("disabled", true);
-            window.alert("Please choose a date in the future");
+            //window.alert("Please choose a date in the future");
+            Notiflix.Notify.failure("Please choose a date in the future");
         }
     }
 });
