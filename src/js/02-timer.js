@@ -3,6 +3,7 @@ import "flatpickr/dist/flatpickr.min.css";//дополнительный имп�
 import Notiflix from 'notiflix';//подключение библиотеки notiflix
 
 const refs = {
+    input : document.querySelector('#datetime-picker'),
     startBtn: document.querySelector('button[data-start]'),
     days: document.querySelector('[data-days]'),
     hours: document.querySelector('[data-hours]'),
@@ -14,7 +15,7 @@ refs.startBtn.setAttribute("disabled", true);
 
 let selectedDate = null;
 const currentDate = Date.now();
-const fp = flatpickr("#datetime-picker", options = {
+const fp = flatpickr( refs.input,  options  = { 
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
