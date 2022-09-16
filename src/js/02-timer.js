@@ -13,6 +13,7 @@ const refs = {
 
 refs.startBtn.setAttribute("disabled", true);
 
+let options = {};
 let selectedDate = null;
 const currentDate = Date.now();
 const fp = flatpickr( refs.input,  options  = { 
